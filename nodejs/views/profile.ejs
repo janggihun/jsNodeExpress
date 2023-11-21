@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section {
+            width: 1000px;
+            background-color: white;
+            margin: 150px 400px;
+
+            position: absolute;
+        }
+
+        body {
+            background-color: rgb(233, 233, 233);
+        }
+
+        table {
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            padding: 30px;
+        }
+
+        .updateTitle {
+            text-align: center;
+            padding: 20px;
+            font-size: larger;
+            color: blue;
+        }
+
+        .updateBtn {
+            text-align: center;
+            padding: 30px;
+        }
+
+        #td1 {
+            width: 200px;
+            padding: 5px;
+        }
+
+        #td2 {
+            width: 200px;
+            padding: 5px;
+        }
+
+        #welcome {
+            text-align: right;
+            font-size: small;
+            padding: 0px 17px;
+        }
+
+        #btn1,
+        #btn2 {
+            padding: 7px;
+            width: 100px;
+            background-color: blue;
+            color: white;
+            border-radius: 10px;
+        }
+
+        #btn:active {
+            background-color: darkblue;
+            color: white;
+        }
+
+        #secession {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: small;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="updateTitle">
+            <h3>MY PROFILE</h3>
+        </div>
+        <input type="hidden" name="userid">
+        <div id="welcome">
+            <%= data[0].name %>님 <a href="#" onclick="logout()">로그아웃</a>
+        </div>
+        <hr>
+        <table class="updateTable">
+            <tr>
+                <td id="td1">Name</td>
+                <td id="td2"><%= data[0].name %></td>
+            </tr>
+            <tr>
+                <td id="td1">Id</td>
+                <td id="td2"><%= data[0].id %></td>
+            </tr>
+            <tr>
+                <td id="td1">Password</td>
+                <td id="td2">⦁⦁⦁⦁</td>
+            <tr>
+                <td id="td1">Tel</td>
+                <td id="td2"><%= data[0].phone %></td>
+            </tr>
+            <tr>
+                <td id="td1">Email</td>
+                <td id="td2"><%= data[0].email %></td>
+            </tr>
+        </table>
+        <hr>
+        <div class="updateBtn">
+            <input onclick="location.href ='/retouch'" id="btn1" type="button" value="retouch">
+            <input onclick="location.href='/board'" id="btn2" type="button" value="back">
+            <form action="/secession" onsubmit="return ques()">
+                <button id="secession">회원탈퇴</button>
+            </form>
+        </div>
+    </section>
+</body>
+<script>
+    function logout() {
+        if (window.confirm('정말 로그아웃 하시겠습니까?')) {
+            location.href = '/'
+        } else {
+            location.herf = '/profile'
+        }
+    }
+
+    function ques() {
+        if (window.confirm('<%= data[0].name %>님 정말 탈퇴 하시겠습니까?\n탈퇴 시 모든 정보가 사라지며 복구가 불가능 합니다.')) {
+            deleteCookie('id')
+            deleteCookie('cc')
+            deleteCookie('login')
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+</script>
+
+</html>

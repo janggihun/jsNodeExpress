@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        body {
+
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100dvh;
+            background-color: rgb(233, 233, 233)
+        }
+
+        .container {
+            margin-top: 180px;
+            width: 600px;
+            height: 600px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-left: 700px;
+
+        }
+
+        .form_item {
+            width: 250px;
+            margin-bottom: 20px;
+            display: flex;
+            border: 2px solid gainsboro;
+            background-color: white;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        input {
+            height: auto;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            background-color: white;
+        }
+
+        .join_submit {
+            width: 270px;
+            height: 30px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            background-color: blue;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .backhome_submit {
+            position: relative;
+            bottom: 20px;
+            left: 0px;
+            width: 270px;
+            height: 30px;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+            background-color: blue;
+            border-radius: 10px;
+            color: white;
+
+        }
+
+        .btn_show_hide {
+            float: right;
+            height: auto;
+            box-sizing: border-box;
+            /* border: none;
+            outline: none; */
+
+
+        }
+
+        .errorMsg {
+            width: auto;
+            margin-top: -20px;
+            box-sizing: border-box;
+            height: 20px;
+            color: red;
+            font-size: x-small;
+        }
+
+        /* button:hover{
+            
+        } */
+        #fectcheck {
+            position: relative;
+            width: 70px;
+            height: 25px;
+
+            top: -319px;
+            left: 95px;
+            padding: 5px;
+            background-color: skyblue;
+            border: 0;
+            color: white;
+            border-radius: 10px;
+        }
+
+        #fectcheck:active {
+            background-color: cornflowerblue;
+        }
+
+        .join_submit:active,
+        .backhome_submit:active {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+
+<body>
+    <form name="form0" method="post" onsubmit="return false">
+        <div class="container">
+            <h1 style="color: blue; font-weight: lighter;">JOIN</h1>
+            <div class="form_item id">
+                <input type="text" name="id" id="userId1" placeholder="아이디">
+            </div>
+            <div class="errorMsg id" id="iderrormsg"></div>
+            <div class="form_item pw">
+                <input type="password" name="pwd" id="userPw" placeholder="비밀번호" disabled>
+            </div>
+            <div class="errorMsg pw" id="pwerrormsg"></div>
+            <div class="form_item email">
+                <input type="text" name="email" id="userEmail" placeholder="이메일 ㅣ예시:lol@lol.com" disabled>
+            </div>
+            <div class="errorMsg email" id="emailerrormsg"></div>
+            <div class="form_item name">
+                <input type="text" name="name" id="userName" placeholder="이름" disabled>
+            </div>
+            <div class="errorMsg name" id="nameerrormsg"></div>
+
+            <div class="form_item phoneNo">
+
+                <input type="text" maxlength='13' name="phone" id="phoneNo" placeholder="전화번호" oninput="needPhone(this)"
+                    disabled>
+            </div>
+            <div class="errorMsg pno" id="pnoerrormsg"></div>
+
+            <button class="join_submit" onclick="fct(0)">가입</button>
+
+    </form>
+    <form name="from1">
+
+        <input type="text" name="id" id="userId2" style="display: none;" value="">
+        <button id="fectcheck" onclick="fct(1)">중복확인</button>
+    </form>
+    <form name="from2">
+        <button class="backhome_submit" onclick="rehome()">홈화면</button>
+    </form>
+
+    </div>
+
+    <script>
+        let idregexr = /^[a-zA-Z0-9]{3,10}$/;
+        let pwregexr = /.{8,16}/;
+        let nameregexr = /^[가-힣a-zA-Z]+$/;
+        let emailregexr = /^[A-Za-z-0-9\-\.]+@/
+
+
+
+        disableCheck()
+        idSame(); // 쿠키로 이름이 같은지 여부// 같을때 true;
+        reHome(); // 클릭시 board로 이동
+
+
+        function disableCheck() {
+
+            if (getCookie('sameName')) {
+
+                if (getCookie('sameName') != 'true') {
+
+                    $("#userPw").attr("disabled", false)
+                    $("#userName").attr("disabled", false)
+                    $("#phoneNo").attr("disabled", false)
+                    $("#userEmail").attr("disabled", false)
+                } else {
+                    $("#userPw").attr("disabled", true)
+                    $("#userName").attr("disabled", true)
+                    $("#phoneNo").attr("disabled", true)
+                    $("#userEmail").attr("disabled", true)
+                }
+            }
+        }
+
+        function reHome() {
+            document.forms[2].action = '/'
+        }
+
+        function fct(num) { // 중복확인버튼
+
+            if (num == 1) {
+
+                if (document.querySelector('#userId1').value) {
+                    document.forms[1].method = 'post'
+                    document.querySelector('#userId2').value = document.querySelector('#userId1').value
+                    document.forms[1].action = '/check'
+
+                } else {
+                    alert("아이디를 입력해주세요")
+                    return;
+                }
+
+
+            } else { //fct(0)실행 //가입버튼
+                if (document.getElementById('userId1').value == '') {
+                    alert('아이디를 입력해주세요');
+                    return;
+                } else if (document.getElementById('userPw').value == '') {
+                    alert('비밀번호를 입력해주세요');
+                    return;
+                } else if (document.getElementById('userName').value == '') {
+                    alert('이름를 입력해주세요');
+                    return;
+                } else if (document.getElementById('phoneNo').value == '') {
+                    alert('핸드폰번호를 입력해주세요');
+                    return;
+                } else if (document.getElementById('phoneNo').value.length != 13) {
+                    alert('핸드폰 자릿수를 확인해주세요');
+                    return;
+                } else if (document.getElementById('userId1').value.length < 3) {
+                    alert('아이디 자릿수를 확인해주세요');
+                } else {
+                    if (getCookie('sameName')) {
+                        if (getCookie('sameName') == document.getElementById('userId1').value) {
+                            let str = document.getElementById('phoneNo').value
+
+                            document.forms[0].onsubmit = 'true';
+                            document.forms[0].method = 'post'
+                            document.forms[0].action = '/contactProc'
+                            return;
+
+                        } else {
+
+
+                        }
+                    }
+                    alert("중복확인을 눌러주세요")
+
+                }
+            }
+        }
+
+        function isEmpty(data) {
+            // console.log(data);
+            // if (data == null || data == '' || data == ' '||data ==undefined || data== NaN) {
+            if ($(data).length == 0) {
+                return true
+            } else {
+                return false;
+            }
+        }
+
+        function idSame() { //
+            if (getCookie('sameName') == 'true') {
+                alert("아이디가 중복되었습니다.\n\n다시 입력해주세요")
+                return;
+            } else if (getCookie('sameName')) {
+                alert("사용 가능한 아이디입니다.")
+                document.getElementById('userId1').value = idCookie('sameName')
+            }
+        }
+
+        function idCookie(name) {
+            var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return value ? decodeURI(value[2]) : null;
+        }
+
+        function getCookie(name) { //쿠키값확인용
+            var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return value ? unescape(value[2]) : null;
+        };
+
+        function deleteCookie(name) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+
+        $('#userId1').blur(function () {
+            // console.log("통과");
+            if ($('#userId1').val() == "" || $('#userId1').val() == " " || $('#userId1').val() == null) {
+                $('#iderrormsg').text('필수 정보입니다').css('color', 'red')
+                $('#userId1').focus()
+                return false;
+            } else if (!idregexr.test($('#userId1').val())) {
+                $('#iderrormsg').text('3-10자리 영문 대/소문자, 숫자를 사용해 주세요.').css('color', 'red')
+                return false;
+            } else if (idregexr.test($('#userId1').val())) {
+
+                $('#iderrormsg').text('중복확인을 눌러주세요').css('color', 'red')
+                if (getCookie('sameName')) {
+                    if (getCookie('sameName') != 'true')
+                        $('#iderrormsg').text('사용 가능한 아이디입니다.').css('color', 'green')
+
+                }
+                return true;
+            }
+        });
+        $('#userPw').blur(function () {
+            if ($('#userPw').val() == "" || $('#userPw').val() == " " || $('#userPw').val() == null) {
+                $('#pwerrormsg').text('필수 정보입니다').css('color', 'red')
+                // $('#userPw').focus()
+            }
+            if (!pwregexr.test($('#userPw').val())) {
+                $('#pwerrormsg').text('8~16자리를 입력해 주세요.').css('color', 'red')
+            } else {
+                $('#pwerrormsg').text('사용 가능한 비밀번호입니다').css('color', 'green')
+            }
+        });
+
+        $('#userEmail').blur(function () {
+            if ($('#userEmail').val() == "" || $('#userEmail').val() == " " || $('#userEmail').val() == null) {
+                $('#emailerrormsg').text('필수 정보입니다').css('color', 'red')
+            } else if (!emailregexr.test($('#userEmail').val())) {
+                $('#emailerrormsg').text('@를 정확히 입력해주세요.').css('color', 'red')
+                // 숫자하나는 꼭 포함해야함
+            } else {
+                $('#emailerrormsg').text('이메일 등록 완료.').css('color', 'green')
+            }
+        });
+
+        $('#userName').blur(function () {
+            if ($('#userName').val() == "" || $('#userName').val() == " " || $('#userName').val() == null) {
+                $('#nameerrormsg').text('필수 정보입니다').css('color', 'red')
+            } else if (!nameregexr.test($('#userName').val())) {
+                $('#nameerrormsg').text('한글 또는 영문을 정확히 입력해주세요').css('color', 'red')
+            } else {
+                $('#nameerrormsg').text('이름 작성 완료.').css('color', 'green')
+            }
+        })
+        $('#phoneNo').blur(function () {
+            if ($('#phoneNo').val() == "" || $('#phoneNo').val() == " " || $('#phoneNo').val() == null) {
+                $('#pnoerrormsg').text('필수 정보입니다').css('display', 'block').css('color', 'red')
+            } else if (document.getElementById('phoneNo').value.length != '13') {
+                $('#pnoerrormsg').text('자릿수에 맞게 입력해주세요').css('display', 'block').css('color', 'red')
+            } else {
+                $('#pnoerrormsg').text('번호 작성 완료.').css('color', 'green')
+            }
+        });
+
+        const needPhone = (target) => { //오토 하이픈
+            target.value = target.value
+                .replace(/[^0-9]/g, '')
+                .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+        }
+    </script>
+
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            display: flex;
+            background-color: rgb(233, 233, 233);
+        }
+
+        #main {
+            background-color: white;
+            width: 1000px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 150px auto;
+            position: relative;
+
+        }
+
+        .header {
+            position: absolute;
+            width: inherit;
+            height: 80px;
+            background-color: #90e0ef;
+            top: 0px;
+            display: flex;
+
+        }
+
+        .header span {
+            display: flex;
+            font-size: large;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav {
+            background-color: #00b4d8;
+            display: flex;
+            position: absolute;
+            height: 80px;
+            right: 0;
+            align-items: center;
+
+        }
+
+        nav a {
+            color: white;
+            box-sizing: border-box;
+            padding: 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        nav a:hover {
+            background-color: #0077b6;
+            color: white;
+            box-sizing: inherit;
+        }
+
+        .container {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        .title [type=text] {
+            position: absolute;
+            top: 200px;
+            right: 230px;
+            width: 500px;
+            height: 40px;
+            border: 1px solid #00b4d8;
+            outline: #00b4d8;
+            box-sizing: border-box;
+            border-radius: 15px;
+            padding-left: 15px;
+
+        }
+
+        textarea {
+            position: absolute;
+            top: 250px;
+            left: 270px;
+            margin: 10px auto;
+            min-width: 500px;
+            max-width: 500px;
+            min-height: 300px;
+            max-height: 300px;
+            border: 1px solid #00b4d8;
+            outline: #00b4d8;
+            border-radius: 15px;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        h1 {
+            position: absolute;
+            top: 122px;
+            left: 472px;
+
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 100;
+            margin: 0px;
+            width: 180px;
+            height: 43px;
+
+        }
+
+        .side {
+            position: absolute;
+            top: 500px;
+            right: 100px;
+        }
+
+        .side [type=submit] {
+            width: 100px;
+            height: 50px;
+            border: 0px solid #00b4d8;
+            border-radius: 15px;
+            background-color: #bde0fe;
+        }
+
+        .side [type=submit]:active {
+            background-color: #a2d2ff;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="main">
+        <div class="header">
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;게임 데이터 아트: LOL 시각적 표현의 세계</span>
+            <nav>
+                <a href="/board">Main</a>
+                <a href="/profile">My Page</a>
+                <a href="/">Logout</a>
+            </nav>
+
+        </div>
+        <div>
+            <form onsubmit="return false" method="post">
+                <h1>Posting</h1>
+                <div class="title">
+                    <input id="text"  maxlength="10"  name="text" type="text" placeholder="제목을 입력해 주세요.">
+                </div>
+                <div class="txt">
+                    <textarea id="content"  maxlength="10"  name="content" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="side">
+                    <input type="submit" id="signUp" value="POST" onclick="bc()">
+                </div>
+
+
+
+            </form>
+
+
+        </div>
+        <script>
+
+            function bc() {
+
+                if (document.getElementById("text").value == '') {
+                    alert("제목을 입력해주세요")
+                    return false;
+
+                } else {
+                    if (window.confirm("입력한 내용을 게시물에 등록하시겠습니까?")) {
+
+                        document.forms[0].onsubmit = true;
+                        document.forms[0].action = '/signup'
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+
+                }
+
+                alert("등록이 취소되었습니다.")
+
+            }
+
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            background-color: rgb(233, 233, 233);
+        }
+
+        #main {
+            background-color: white;
+            width: 1000px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 150px 400px;
+        }
+
+        input {
+            width: 300px;
+            height: 40px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 11px;
+            outline: none;
+            padding-left: 10px;
+            background-color: rgb(233, 233, 233);
+            margin: 5px;
+
+        }
+
+        button {
+            width: 310px;
+            height: 40px;
+            font-size: 15px;
+            /* border: none; */
+            border-radius: 10px;
+            padding-left: 10px;
+            outline: none;
+            margin: 5px;
+            background-color: blue;
+            color: white;
+        }
+
+        button:active {
+            background-color: darkblue;
+        }
+
+        a {
+            text-decoration-line: none;
+            font-weight: 900;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form action="/findIdPw" method="post">
+        <div id="main">
+            <h1 style="color: blue; font-weight: lighter;">FIND</h1>
+            <div id="login">
+                <input type="text" name="name" placeholder="Enter your NAME"><br>
+                <input type="text" name="phone" placeholder="Enter your TEL"><br>
+            </div>
+            <div>
+                <button>Find ID & PW</button>
+            </div>
+    </form>
+    <div><form action="/login">
+        <button>Go Login</button>
+    </form>
+    </div>
+
+    </div>
+
+</body>
+
+</html>

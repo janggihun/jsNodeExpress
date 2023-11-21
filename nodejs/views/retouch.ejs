@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous">
+    </script>
+    <style>
+        section {
+            width: 1000px;
+            background-color: white;
+            margin: 150px 400px;
+
+            position: absolute;
+        }
+
+        body {
+            background-color: rgb(233, 233, 233);
+        }
+
+        table {
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            padding: 30px;
+        }
+
+        .updateTitle {
+            text-align: center;
+            padding: 20px;
+            font-size: larger;
+            color: blue;
+        }
+
+        .updateBtn {
+            text-align: center;
+            padding: 30px;
+        }
+
+        #td1 {
+            width: 170px;
+            padding: 5px;
+        }
+
+        #td2 {
+            width: 170px;
+            padding: 5px;
+        }
+
+        #btn {
+            padding: 7px;
+            width: 100px;
+            background-color: blue;
+            color: white;
+            border-radius: 10px;
+
+        }
+
+        #btn5 {
+            padding: 7px;
+            width: 100px;
+            background-color: blue;
+            color: white;
+            border-radius: 10px;
+            
+            visibility: hidden;
+        }
+
+        #btn4,
+        #test {
+            background-color: blue;
+            color: white;
+            border-radius: 10px;
+        }
+
+        #btn:active {
+            background-color: darkblue;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="updateTitle">
+            <h3>Chinging MY PROFILE</h3>
+        </div>
+        <input type="hidden" name="userid">
+        <hr>
+        <form action="/aaa" method="post">
+            <table class="updateTable">
+                <tr>
+                    <td id="td1">Name</td>
+                    <td id="td2"><%= data[0].name %></td>
+                    <!-- 이름 변경 불가 -->
+                </tr>
+                <tr>
+                    <td id="td1">Id</td>
+                    <td id="td2"><%= data[0].id %></td>
+                    <!-- 아이디도 변경 불가 -->
+                </tr>
+                <tr>
+                    <td id="td1">New Pw</td>
+                    <td id="td2">
+                        <input id="btn2" type="password" name="pw1" placeholder=" 변경할 비밀번호 입력" required minlength="8"
+                            maxlength="16">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="td1">New Pw CHECK</td>
+                    <td id="td2">
+                        <input id="btn3" type="password" name="pw2" placeholder=" 한 번 더 입력해 주세요" required minlength="8"
+                            maxlength="16">
+                    </td>
+                    <td>
+                        <button id="test" type="button">on</button>
+                        <input id="btn4" type="button" name="check" value="check">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="td3"></td>
+                </tr>
+                <tr>
+                    <td id="td1">Tel</td>
+                    <td id="td2"><%= data[0].phone %></td>
+                </tr>
+                <tr>
+                    <td id="td1">Email</td>
+                    <td id="td2"><%= data[0].email %></td>
+                </tr>
+
+            </table>
+            <hr>
+            <div class="updateBtn">
+                <input type="submit" id="btn5" type="button" value="complete"
+                    onclick="alert('비밀번호가 변경 되었습니다. 변경된 비밀번호로 다시 로그인 해주세요')">
+                <input onclick="location.href='/profile'" id="btn" type="button" value="back">
+            </div>
+        </form>
+    </section>
+</body>
+<script>
+    $('#btn4').click(function () {
+        let pw1 = document.getElementById('btn2').value;
+        let pw2 = document.getElementById('btn3').value;
+        if (pw1.length > 7 && pw1.length < 17) {
+            if (pw1 == pw2) {
+                $('#td3').html('비밀번호가 일치합니다').css('color', 'green').css('font-size', 'x-small')
+                $('#btn5').css("visibility", "visible");
+            } else {
+                $('#td3').html('비밀번호가 일치하지 않습니다').css('color', 'red').css('font-size', 'x-small')
+                document.getElementById('btn2').value = ''
+                document.getElementById('btn3').value = ''
+                $('#btn5').css("visibility", "hidden");
+            }
+        } else {
+            $('#td3').html('비밀번호는 8~16자 사이로 입력해주세요').css('color', 'red').css('font-size', 'x-small')
+                document.getElementById('btn2').value = ''
+                document.getElementById('btn3').value = ''
+                $('#btn5').css("visibility", "hidden");
+        }
+    })
+
+    $('#test').click(function () {
+        console.log($('#test').text());
+        if ($('#test').text() == 'off') {
+            $('#test').text('on')
+            $('input[name=pw1]').prop('type', "password");
+            $('input[name=pw2]').prop('type', "password");
+        } else {
+            $('#test').text('off')
+            $('input[name=pw1]').prop('type', "text");
+            $('input[name=pw2]').prop('type', "text");
+        }
+    })
+</script>
+
+</html>
